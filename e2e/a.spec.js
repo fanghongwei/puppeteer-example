@@ -29,13 +29,19 @@ describe('Puppeter', function() {
             document.querySelector('#login_field').value = username;
             document.querySelector('#password').value = password;
             document.querySelector('input[name="commit"]').click();
-        }, 'fhw8234@gmail.com', 'Some wrong password');
+            
+        }, 'fhw8234@gmail.com', 'some password');
 
         await page.waitForNavigation();
     });
 
     it('#Screenshot', async function() {
         assert.equal(await page.title(), 'GitHub');
+        await page.evaluate(() => {
+            let userId = document.querySelector('li[class*="header-nav-current-user"] > strong').innerHTML
+            document.querySelector(`a[href="/${userId}"]`).click();
+        });
+        await page.waitForNavigation();
     });
 
     after(async () => {
