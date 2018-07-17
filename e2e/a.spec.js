@@ -30,7 +30,7 @@ describe('Puppeter', function() {
             document.querySelector('#password').value = password;
             document.querySelector('input[name="commit"]').click();
             
-        }, 'fhw8234@gmail.com', 'some password');
+        }, 'fhw8234@gmail.com', 'some wrong password');
 
         await page.waitForNavigation();
     });
@@ -42,6 +42,14 @@ describe('Puppeter', function() {
             document.querySelector(`a[href="/${userId}"]`).click();
         });
         await page.waitForNavigation();
+
+        // let repositoryNumber;
+        let number = await page.evaluate(() => {
+            let repositoryNumber = document.querySelector('a[title="Repositories"] .Counter').innerHTML.trim();
+            return Promise.resolve(repositoryNumber);
+        });
+
+        assert.equal(number, '5');
     });
 
     after(async () => {
